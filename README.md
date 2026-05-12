@@ -13,3 +13,17 @@ Pada chart pertama, yaitu **Queued messages**, terlihat adanya spike pada garis 
 Pada percobaan saya, jumlah queued message sempat naik sampai **6**. Hal ini terjadi karena publisher dapat mengirim event ke RabbitMQ lebih cepat daripada subscriber memprosesnya.
 
 Setelah subscriber memproses message satu per satu dan mengirim acknowledgement, jumlah queue kembali turun menjadi **0**. Ini menunjukkan bahwa semua message yang sebelumnya berada di queue sudah berhasil dikonsumsi oleh subscriber.
+
+## Running at least three subscribers
+
+![alt text](<images/Screenshot 2026-05-12 190255.png>)
+
+Pada percobaan ini, saya membuka tiga console berbeda. Di setiap console, saya masuk ke directory subscriber dan menjalankan command `cargo run`. Setelah itu, saya menjalankan publisher beberapa kali secara cepat untuk mensimulasikan banyak request/event yang masuk ke RabbitMQ.
+
+Pada RabbitMQ Management UI terlihat bahwa jumlah **Connections**, **Channels**, dan **Consumers** menjadi **3**. Hal ini menunjukkan bahwa ada tiga subscriber yang sedang aktif dan terhubung ke queue yang sama.
+
+Dengan adanya beberapa subscriber, proses konsumsi message menjadi lebih cepat. RabbitMQ akan membagikan message ke beberapa consumer yang tersedia, sehingga message tidak hanya diproses oleh satu subscriber saja. Karena itu, spike pada queue akan turun lebih cepat dibandingkan ketika hanya ada satu subscriber.
+
+Konsep ini menunjukkan salah satu kelebihan event-driven architecture. Ketika jumlah event yang masuk meningkat, kita dapat menambah jumlah subscriber/consumer agar proses message menjadi lebih paralel dan queue tidak menumpuk terlalu lama.
+
+Pada percobaan saya, queue sempat menunjukkan aktivitas pada bagian **Message rates**, tetapi jumlah queued message cepat kembali menjadi 0 karena tiga subscriber memproses message secara bersamaan.
