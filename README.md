@@ -1,0 +1,5 @@
+1. What is amqp?  
+AMQP adalah singkatan dari **Advanced Message Queuing Protocol**. AMQP digunakan agar aplikasi bisa saling mengirim pesan melalui perantara yang disebut **message broker**, contohnya RabbitMQ. Pada kode tersebut, program bertindak sebagai **subscriber** yang menunggu pesan dengan event atau queue bernama `user_created`.
+
+2. What does it mean? guest:guest@localhost:5672 , what is the first guest, and whatis the second guest, and what is localhost:5672 is for?  
+Bagian `amqp://guest:guest@localhost:5672` adalah alamat koneksi ke message broker. Format umumnya adalah `amqp://username:password@host:port`. Jadi, `guest` yang pertama adalah **username**, sedangkan `guest` yang kedua adalah **password**. `localhost` berarti broker berjalan di komputer sendiri, dan `5672` adalah port default yang biasa digunakan AMQP/RabbitMQ.
